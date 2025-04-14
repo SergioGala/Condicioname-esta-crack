@@ -1,35 +1,2226 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="./assets/img/4geeks.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello Rigo with Vanilla.js</title>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Condicionales en JavaScript - Aprendizaje Interactivo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+       :root {
+    /* Colores primarios con mejor contraste */
+    --primary: #4338ca;          /* Indigo 700 */
+    --primary-light: #6366f1;    /* Indigo 500 */
+    --secondary: #1d4ed8;        /* Blue 700 */
+    --secondary-light: #3b82f6;  /* Blue 500 */
+    --accent: #ea580c;           /* Orange 600 */
+    --accent-light: #f97316;     /* Orange 500 */
+    
+    /* Colores de estado */
+    --success: #16a34a;          /* Green 600 */
+    --success-light: #22c55e;    /* Green 500 */
+    --warning: #d97706;          /* Amber 600 */
+    --warning-light: #f59e0b;    /* Amber 500 */
+    --error: #dc2626;            /* Red 600 */
+    --error-light: #ef4444;      /* Red 500 */
+    
+    /* Escala de grises */
+    --dark: #0f172a;             /* Slate 900 */
+    --dark-gray: #1e293b;        /* Slate 800 */
+    --medium-gray: #334155;      /* Slate 700 - para texto principal */
+    --light-gray: #64748b;       /* Slate 500 - para texto secundario */
+    --light: #f8fafc;            /* Slate 50 */
+    --white: #ffffff;
+    
+    /* Sombras */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+}
 
-    <!-- Fontawesome is our recomended library for icons -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <!-- Write your HTML code here, you can delete everything withing the body tags -->
-    <div class="container-fluid text-center">
-      <h1 class="mt-5">Hello Rigo!</h1>
-      <img src="./assets/img/rigo-baby.jpg" />
-      <p class="alert alert-warning mt-4">
-        If this text is <b>not</b> centered and <b>yellow</b>, you probably have
-        an error
-      </p>
-      <div class="fixed-bottom p-4">
-        Made with ❤️ by
-        <a href="https://www.4geeksacademy.com">4Geeks Academy</a>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light);
+    color: var(--medium-gray);
+    line-height: 1.6;
+}
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 150%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% -50%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .intro p {
+    max-width: 800px;
+    margin: 1rem auto;
+    font-size: 1.1rem;
+    color: var(--medium-gray); /* Cambiado de var(--gray) */
+}
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 3rem;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .section-header {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            padding: 1.5rem 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-header i {
+            margin-right: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .section-content {
+            padding: 2rem;
+        }
+        
+        .code-container {
+            background-color: var(--dark);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2d3748;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #4a5568;
+        }
+        
+        .code-title {
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .code {
+            padding: 1.2rem;
+            color: #a412b8;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+            overflow-x: auto;
+            font-size: 1rem;
+        }
+        
+        .keyword { color: #bd93f9; }
+        .function { color: #50fa7b; }
+        .string { color: hsl(39, 100%, 57%); }
+        .number { color: #ff79c6; }
+        .comment { color: #6272a4; }
+        .operator { color: #ff79c6; }
+        .boolean { color: #bd93f9; }
+        
+        .result-container {
+    background: #e2e8f0; /* Fondo más oscuro para mejor contraste */
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-top: 1.5rem;
+    border-left: 4px solid var(--accent);
+    transition: all 0.3s ease;
+}
+
+.result {
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+    padding: 0.8rem;
+    background: var(--white);
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
+    color: var(--dark); /* Color más oscuro para mejor legibilidad */
+    font-weight: 500;
+}
+        
+        .result-container:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateX(5px);
+        }
+        
+        .result-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-title i {
+            margin-right: 0.5rem;
+        }
+        
+        .result {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            padding: 0.8rem;
+            background: white;
+            border-radius: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+        .visual-guide {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.visual-item {
+    background: white;
+    border-radius: 10px;
+    padding: 1.8rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    border-top: 5px solid transparent;
+}
+.error-explanation, .practice-explanation {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    padding: 0.8rem;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: var(--medium-gray); /* Cambiado para mejor contraste */
+    font-weight: 500; /* Añadido para mayor legibilidad */
+}
+
+.visual-item:nth-child(1) {
+    border-color: var(--primary);
+}
+
+.visual-item:nth-child(2) {
+    border-color: var(--secondary);
+}
+
+.visual-item:nth-child(3) {
+    border-color: var(--success);
+}
+
+.visual-item:nth-child(4) {
+    border-color: var(--accent);
+}
+
+.visual-item:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.visual-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.2rem;
+    color: var(--primary);
+}
+
+.visual-item:nth-child(2) .visual-icon {
+    color: var(--secondary);
+}
+
+.visual-item:nth-child(3) .visual-icon {
+    color: var(--success);
+}
+
+.visual-item:nth-child(4) .visual-icon {
+    color: var(--accent);
+}
+
+.visual-item h3 {
+    margin-bottom: 0.8rem;
+    font-size: 1.3rem;
+}
+
+.visual-item p {
+    color: var(--medium-gray); /* Cambiado de var(--gray) */
+    font-size: 0.95rem;
+}
+.code-animation {
+    margin-top: 3rem;
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.code-animation h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+    font-size: 1.5rem;
+}
+
+.animation-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1.5rem;
+}
+
+.animation-step {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.animation-code {
+    background: var(--dark);
+    border-radius: 8px;
+    padding: 1.2rem;
+    color: white;
+    font-family: 'Courier New', monospace;
+}
+
+.animation-code pre {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.animation-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.condition-box {
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.5s ease;
+}
+
+.condition-box.true {
+    background-color: rgba(16, 185, 129, 0.2);
+    border: 2px solid var(--success);
+    color: var(--success);
+}
+
+.condition-box.false {
+    background-color: rgba(239, 68, 68, 0.2);
+    border: 2px solid var(--error);
+    color: var(--error);
+}
+
+.flow-arrow {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid var(--dark);
+    margin: 0.5rem 0;
+}
+
+.code-path {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    transition: all 0.5s ease;
+}
+
+.code-path.active {
+    background-color: rgba(79, 70, 229, 0.2);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.code-path.inactive {
+    background-color: rgba(100, 116, 139, 0.1);
+    border: 2px dashed var(--gray);
+    color: var(--gray);
+    opacity: 0.6;
+}
+
+.animation-controls {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .animation-step {
+        grid-template-columns: 1fr;
+    }
+}
+.tabs {
+    margin-top: 1rem;
+}
+
+.tab-header {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+    padding: 0.8rem 1.2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--medium-gray); /* Cambiado de var(--gray) */
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    color: var(--primary);
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.conditional-info {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+}
+
+.conditional-description {
+    background: linear-gradient(to right bottom, #f8fafc, #f1f5f9);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+}
+
+.conditional-description h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.conditional-description p {
+    margin-bottom: 1.5rem;
+    color: var(--gray);
+}
+
+.key-points {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.key-point {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 0.8rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    border-left: 3px solid var(--primary);
+}
+
+.key-icon {
+    margin-right: 0.8rem;
+    font-size: 1.2rem;
+}
+
+.code-interactive {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.interactive-controls {
+    background: white;
+    padding: 1.2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    max-width: 400px;
+    height: 8px;
+    border-radius: 4px;
+    background: #e2e8f0;
+    outline: none;
+    margin: 0 1rem;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 992px) {
+    .conditional-info {
+        grid-template-columns: 1fr;
+    }
+    .section-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--medium-gray); /* Cambiado de var(--gray) */
+    font-size: 1.1rem;
+    font-weight: 500; /* Añadido para mayor legibilidad */
+}
+
+#flow-visualizer {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 2rem;
+}
+
+.flow-code-container {
+    background: var(--dark);
+    border-radius: 10px;
+    padding: 1.5rem;
+    color: white;
+    margin-bottom: 2rem;
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+    overflow-x: auto;
+}
+
+.flow-code {
+    white-space: pre;
+    font-size: 1rem;
+}
+
+.flow-block {
+    padding: 0.3rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.flow-block.active {
+    background-color: rgba(79, 70, 229, 0.3);
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.flow-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.flow-node {
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 200px;
+    font-weight: 600;
+    box-shadow: var(--shadow-md);
+}
+
+.flow-node.start {
+    background-color: #93c5fd;
+    color: var(--dark);
+}
+
+.flow-node.end {
+    background-color: #6ee7b7;
+    color: var(--dark);
+}
+
+.flow-node.condition {
+    background-color: #fcd34d;
+    color: var(--dark);
+    padding: 1.5rem;
+    border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flow-node.block {
+    background-color: #d1d5db;
+    color: var(--dark);
+    transition: all 0.3s ease;
+}
+
+.flow-node.block.active {
+    background-color: #a5b4fc;
+    transform: scale(1.05);
+    border: 2px solid var(--primary);
+}
+
+.flow-arrow {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid var(--dark-gray);
+}
+
+.flow-paths {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    gap: 2rem;
+}
+
+.flow-path {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.flow-path.active {
+    opacity: 1;
+}
+
+.path-label {
+    font-weight: bold;
+    background: #e0e7ff;
+    color: var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+
+.path-arrow {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid var(--dark-gray);
+}
+
+.flow-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #f1f5f9;
+    padding: 1rem;
+    border-radius: 8px;
+    justify-content: center;
+}
+
+.flow-controls label {
+    font-weight: 600;
+}
+
+.flow-controls .slider {
+    flex: 1;
+    max-width: 300px;
+}
+.syntax-comparator {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.syntax-comparator h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--primary);
+    font-size: 1.8rem;
+}
+
+.syntax-comparator p {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--gray);
+}
+
+.comparison-table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr 1fr 1fr;
+    background: linear-gradient(to right, var(--primary), var(--primary-light));
+    color: white;
+    font-weight: bold;
+}
+
+.header-cell {
+    padding: 1rem;
+    text-align: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-cell:last-child {
+    border-right: none;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr 1fr 1fr;
+    border-bottom: 1px solid #e2e8f0;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.table-row:last-child {
+    border-bottom: none;
+}
+
+.table-row:hover {
+    background: #f8fafc;
+}
+
+.row-cell {
+    padding: 1rem;
+    border-right: 1px solid #e2e8f0;
+}
+
+.row-cell:last-child {
+    border-right: none;
+}
+
+.row-cell.type {
+    font-weight: bold;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.row-cell.code {
+    background: #f1f5f9;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.row-cell ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.row-cell li {
+    margin-bottom: 0.5rem;
+    color: var(--medium-gray); /* Cambiado de var(--gray) */
+    font-weight: 500; /* Añadido para mejor legibilidad */
+}
+
+.row-cell li:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+    .flow-visualizer {
+        grid-template-columns: 1fr;
+    }
+    
+    .table-header, .table-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .header-cell, .row-cell {
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .header-cell:last-child, .row-cell:last-child {
+        border-bottom: none;
+    }
+    
+    .row-cell.type {
+        background: #f1f5f9;
+        padding: 0.8rem;
+    }
+}
+.game-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    color: var(--medium-gray); /* Color con mejor contraste */
+    font-weight: 500; /* Añadido para mejor legibilidad */
+}
+
+.game-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    padding: 2rem;
+}
+
+.scenario-container {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.scenario {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    animation: fadeIn 0.5s ease;
+}
+
+.scenario-title {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.scenario-description {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    /* Color oscuro para mejor contraste */
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+.scenario-options {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.option-btn {
+    padding: 1rem 2rem;
+    background: white;
+    border: 2px solid var(--primary-light);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option-btn:hover {
+    background: var(--primary-light);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.option-btn.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.option-btn.correct {
+    background: var(--success);
+    color: white;
+    border-color: var(--success);
+}
+
+.option-btn.incorrect {
+    background: var(--error);
+    color: white;
+    border-color: var(--error);
+}
+
+.feedback-container {
+    margin-top: 1.5rem;
+}
+
+.feedback {
+    display: none;
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    animation: fadeIn 0.5s ease;
+}
+
+.feedback.correct {
+    border-left: 5px solid var(--success);
+}
+
+.feedback.incorrect {
+    border-left: 5px solid var(--error);
+}
+
+.feedback i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.feedback.correct i {
+    color: var(--success);
+}
+
+.feedback.incorrect i {
+    color: var(--error);
+}
+
+.feedback p {
+    margin-bottom: 1rem;
+    /* Color oscuro para mejor contraste */
+    color: #1e293b;
+}
+
+.game-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.game-btn {
+    min-width: 120px;
+}
+
+.game-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#scenario-counter, .score-container {
+    font-weight: 600;
+    color: var(--dark-gray); /* Color más oscuro para mejor contraste */
+}
+
+.game-progress {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-right: 1rem;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(to right, var(--primary-light), var(--primary));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.score-container {
+    font-weight: 600;
+    /* Color oscuro para mejor contraste */
+    color: #334155;
+}
+
+.score-label {
+    margin-right: 0.5rem;
+}
+footer {
+    background: linear-gradient(to right, var(--dark), #334155);
+    color: white;
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.footer-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.footer-content p {
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+.footer-link i {
+    font-size: 1.2rem;
+}
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Condicionales en JavaScript</h1>
+        <p class="subtitle">Aprende a controlar el flujo de tu código con decisiones inteligentes</p>
+    </header>
+    
+    <div class="container">
+        <div class="intro">
+            <h2>¿Qué son los condicionales?</h2>
+            <p>Los condicionales son instrucciones que nos permiten ejecutar diferentes bloques de código según se cumplan o no ciertas condiciones. Son como los "cruces de caminos" en tu programa.</p>
+        </div>
+        <div class="section">
+          <div class="section-header">
+              <i class="fas fa-map-signs"></i>
+              <span>¿Para qué usamos condicionales?</span>
+          </div>
+          <div class="section-content">
+              <div class="visual-guide">
+                  <div class="visual-item">
+                      <div class="visual-icon">
+                          <i class="fas fa-code-branch"></i>
+                      </div>
+                      <h3>Tomar decisiones</h3>
+                      <p>Ejecutar diferentes bloques de código según las condiciones que estableces</p>
+                  </div>
+                  
+                  <div class="visual-item">
+                      <div class="visual-icon">
+                          <i class="fas fa-traffic-light"></i>
+                      </div>
+                      <h3>Controlar el flujo</h3>
+                      <p>Dirigir el camino que seguirá tu programa, como semáforos en una carretera</p>
+                  </div>
+                  
+                  <div class="visual-item">
+                      <div class="visual-icon">
+                          <i class="fas fa-shield-alt"></i>
+                      </div>
+                      <h3>Validar datos</h3>
+                      <p>Comprobar si los datos cumplen con ciertos requisitos antes de procesarlos</p>
+                  </div>
+                  
+                  <div class="visual-item">
+                      <div class="visual-icon">
+                          <i class="fas fa-random"></i>
+                      </div>
+                      <h3>Manejar casos</h3>
+                      <p>Responder de manera diferente a distintas situaciones en tu programa</p>
+                  </div>
+              </div>
+              
+              <div class="code-animation">
+                  <h3>¿Cómo funcionan los condicionales?</h3>
+                  <div class="animation-container">
+                      <div class="animation-step" id="step1">
+                          <div class="animation-code">
+                              <pre><code>if (<span class="boolean">true</span>) {
+          console.log("Esta parte se ejecuta");
+      } else {
+          console.log("Esta parte se ignora");
+      }</code></pre>
+                          </div>
+                          <div class="animation-visual">
+                              <div class="condition-box true">
+                                  <span class="condition-text">Condición: true</span>
+                              </div>
+                              <div class="flow-arrow"></div>
+                              <div class="code-path active">
+                                  <span>console.log("Esta parte se ejecuta");</span>
+                              </div>
+                              <div class="code-path inactive">
+                                  <span>console.log("Esta parte se ignora");</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="animation-controls">
+                      <button id="toggle-condition" class="btn">Cambiar condición</button>
+                  </div>
+              </div>
+          </div>
       </div>
+      <div class="section">
+        <div class="section-header">
+            <i class="fas fa-tools"></i>
+            <span>Tipos de Condicionales</span>
+        </div>
+        <div class="section-content">
+            <div class="tabs">
+                <div class="tab-header">
+                    <button class="tab-btn active" data-tab="if-else">if-else</button>
+                    <button class="tab-btn" data-tab="else-if">else if</button>
+                    <button class="tab-btn" data-tab="ternario">Operador Ternario</button>
+                    <button class="tab-btn" data-tab="switch">switch</button>
+                </div>
+                
+                <div class="tab-content">
+                    <!-- Contenido if-else -->
+                    <div class="tab-pane active" id="if-else-pane">
+                        <div class="conditional-info">
+                            <div class="conditional-description">
+                                <h3>if-else: Decisiones Simples</h3>
+                                <p>La estructura más básica. Ejecuta un bloque si la condición es verdadera y otro si es falsa.</p>
+                                <div class="key-points">
+                                    <div class="key-point">
+                                        <span class="key-icon">🔑</span>
+                                        <span>Usa <code>if</code> para la condición principal</span>
+                                    </div>
+                                    <div class="key-point">
+                                        <span class="key-icon">🔑</span>
+                                        <span>La parte <code>else</code> es opcional</span>
+                                    </div>
+                                    <div class="key-point">
+                                        <span class="key-icon">🔑</span>
+                                        <span>Siempre usa llaves <code>{}</code> para mayor claridad</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="code-interactive">
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span class="code-title">if-else</span>
+                                        <button class="btn run-btn" data-code="if-else">Ejecutar</button>
+                                    </div>
+                                    <pre class="code">
+    <span class="keyword">let</span> edad <span class="operator">=</span> <span class="number">20</span>;
+    
+    <span class="keyword">if</span> (edad <span class="operator">>=</span> <span class="number">18</span>) {
+      console.<span class="function">log</span>(<span class="string">"Eres mayor de edad. Puedes conducir."</span>);
+    } <span class="keyword">else</span> {
+      console.<span class="function">log</span>(<span class="string">"Eres menor de edad. No puedes conducir."</span>);
+    }</pre>
+                                </div>
+                                
+                                <div class="interactive-controls">
+                                    <label for="if-else-value">Cambia el valor de edad:</label>
+                                    <input type="range" id="if-else-value" min="10" max="30" value="20" class="slider">
+                                    <span id="if-else-value-display">20</span>
+                                </div>
+                                
+                                <div class="result-container" id="if-else-result">
+                                    <div class="result-title"><i class="fas fa-terminal"></i> Resultado:</div>
+                                    <div class="result">No ejecutado aún</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenido else-if -->
+                    <div class="tab-pane" id="else-if-pane">
+                        <div class="conditional-info">
+                            <div class="conditional-description">
+                                <h3>else if: Múltiples Condiciones</h3>
+                                <p>Permite evaluar varias condiciones en secuencia. Útil cuando tienes múltiples casos posibles.</p>
+                                <div class="key-points">
+                                    <div class="key-point">
+                                        <span class="key-icon">🔑</span>
+                                        <span>Puedes tener tantos <code>else if</code> como necesites</span>
+                                    </div>
+                                    <div class="key-point">
+                                        <span class="key-icon">🔑</span>
+                                        <span>Se evalúan en el orden en que aparecen</span>
+                                    </div>
+                                    <div class="key-point">
+                                        <span class="key-icon">🔑</span>
+                                        <span>Usa <code>else</code> al final para el caso por defecto</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="code-interactive">
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span class="code-title">else if</span>
+                                        <button class="btn run-btn" data-code="else-if">Ejecutar</button>
+                                    </div>
+                                    <pre class="code">
+    <span class="keyword">let</span> nota <span class="operator">=</span> <span class="number">85</span>;
+    
+    <span class="keyword">if</span> (nota <span class="operator">>=</span> <span class="number">90</span>) {
+      console.<span class="function">log</span>(<span class="string">"Sobresaliente"</span>);
+    } <span class="keyword">else if</span> (nota <span class="operator">>=</span> <span class="number">80</span>) {
+      console.<span class="function">log</span>(<span class="string">"Notable"</span>);
+    } <span class="keyword">else if</span> (nota <span class="operator">>=</span> <span class="number">70</span>) {
+      console.<span class="function">log</span>(<span class="string">"Bien"</span>);
+    } <span class="keyword">else if</span> (nota <span class="operator">>=</span> <span class="number">60</span>) {
+      console.<span class="function">log</span>(<span class="string">"Suficiente"</span>);
+    } <span class="keyword">else</span> {
+      console.<span class="function">log</span>(<span class="string">"Necesita mejorar"</span>);
+    }</pre>
+                                </div>
+                                
+                                <div class="interactive-controls">
+                                    <label for="else-if-value">Cambia el valor de nota:</label>
+                                    <input type="range" id="else-if-value" min="0" max="100" value="85" class="slider">
+                                    <span id="else-if-value-display">85</span>
+                                </div>
+                                
+                                <div class="result-container" id="else-if-result">
+                                    <div class="result-title"><i class="fas fa-terminal"></i> Resultado:</div>
+                                    <div class="result">No ejecutado aún</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="ternario-pane">
+                      <div class="conditional-info">
+                          <div class="conditional-description">
+                              <h3>Operador Ternario: Condicional Compacto</h3>
+                              <p>Un atajo para if-else en una sola línea. Perfecto para asignaciones condicionales sencillas.</p>
+                              <div class="key-points">
+                                  <div class="key-point">
+                                      <span class="key-icon">🔑</span>
+                                      <span>Sintaxis: <code>condición ? valorSiVerdadero : valorSiFalso</code></span>
+                                  </div>
+                                  <div class="key-point">
+                                      <span class="key-icon">🔑</span>
+                                      <span>Ideal para casos simples y concisos</span>
+                                  </div>
+                                  <div class="key-point">
+                                      <span class="key-icon">🔑</span>
+                                      <span>Evita usarlo con lógica compleja</span>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="code-interactive">
+                              <div class="code-container">
+                                  <div class="code-header">
+                                      <span class="code-title">Operador Ternario</span>
+                                      <button class="btn run-btn" data-code="ternario">Ejecutar</button>
+                                  </div>
+                                  <pre class="code">
+                  <span class="keyword">let</span> edad <span class="operator">=</span> <span class="number">20</span>;
+                  
+                  <span class="comment">// Usando el operador ternario</span>
+                  <span class="keyword">let</span> mensaje <span class="operator">=</span> edad <span class="operator">>=</span> <span class="number">18</span> 
+                    ? <span class="string">"Eres mayor de edad"</span> 
+                    : <span class="string">"Eres menor de edad"</span>;
+                  
+                  console.<span class="function">log</span>(mensaje);</pre>
+                              </div>
+                              
+                              <div class="interactive-controls">
+                                  <label for="ternario-value">Cambia el valor de edad:</label>
+                                  <input type="range" id="ternario-value" min="10" max="30" value="20" class="slider">
+                                  <span id="ternario-value-display">20</span>
+                              </div>
+                              
+                              <div class="result-container" id="ternario-result">
+                                  <div class="result-title"><i class="fas fa-terminal"></i> Resultado:</div>
+                                  <div class="result">No ejecutado aún</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <!-- Contenido Switch -->
+                  <div class="tab-pane" id="switch-pane">
+                      <div class="conditional-info">
+                          <div class="conditional-description">
+                              <h3>Switch: Múltiples Casos Específicos</h3>
+                              <p>Ideal cuando necesitas comparar una variable con valores específicos. Más legible que múltiples if-else.</p>
+                              <div class="key-points">
+                                  <div class="key-point">
+                                      <span class="key-icon">⚠️</span>
+                                      <span>No olvides el <code>break</code> al final de cada caso</span>
+                                  </div>
+                                  <div class="key-point">
+                                      <span class="key-icon">🔑</span>
+                                      <span>Usa <code>default</code> para el caso por defecto</span>
+                                  </div>
+                                  <div class="key-point">
+                                      <span class="key-icon">🔑</span>
+                                      <span>Comparación estricta (===) con el valor evaluado</span>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="code-interactive">
+                              <div class="code-container">
+                                  <div class="code-header">
+                                      <span class="code-title">Switch</span>
+                                      <button class="btn run-btn" data-code="switch">Ejecutar</button>
+                                  </div>
+                                  <pre class="code">
+                  <span class="keyword">let</span> diaSemana <span class="operator">=</span> <span class="number">3</span>; <span class="comment">// 1-7 representa lunes a domingo</span>
+                  
+                  <span class="keyword">switch</span> (diaSemana) {
+                    <span class="keyword">case</span> <span class="number">1</span>:
+                      console.<span class="function">log</span>(<span class="string">"Hoy es Lunes"</span>);
+                      <span class="keyword">break</span>;
+                    <span class="keyword">case</span> <span class="number">2</span>:
+                      console.<span class="function">log</span>(<span class="string">"Hoy es Martes"</span>);
+                      <span class="keyword">break</span>;
+                    <span class="keyword">case</span> <span class="number">3</span>:
+                      console.<span class="function">log</span>(<span class="string">"Hoy es Miércoles"</span>);
+                      <span class="keyword">break</span>;
+                    <span class="keyword">case</span> <span class="number">4</span>:
+                      console.<span class="function">log</span>(<span class="string">"Hoy es Jueves"</span>);
+                      <span class="keyword">break</span>;
+                    <span class="keyword">case</span> <span class="number">5</span>:
+                      console.<span class="function">log</span>(<span class="string">"Hoy es Viernes"</span>);
+                      <span class="keyword">break</span>;
+                    <span class="keyword">case</span> <span class="number">6</span>:
+                    <span class="keyword">case</span> <span class="number">7</span>:
+                      console.<span class="function">log</span>(<span class="string">"¡Es fin de semana!"</span>);
+                      <span class="keyword">break</span>;
+                    <span class="keyword">default</span>:
+                      console.<span class="function">log</span>(<span class="string">"Día no válido"</span>);
+                  }</pre>
+                              </div>
+                              
+                              <div class="interactive-controls">
+                                  <label for="switch-value">Cambia el día de la semana:</label>
+                                  <input type="range" id="switch-value" min="1" max="8" value="3" class="slider">
+                                  <span id="switch-value-display">3 (Miércoles)</span>
+                              </div>
+                              
+                              <div class="result-container" id="switch-result">
+                                  <div class="result-title"><i class="fas fa-terminal"></i> Resultado:</div>
+                                  <div class="result">No ejecutado aún</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                 
+                        
+                        <div class="syntax-comparator">
+                            <h3>Comparativa de Sintaxis</h3>
+                            <p>Hay varias formas de escribir condicionales en JavaScript. Elige la adecuada según tu caso.</p>
+                            
+                                
+                                <div class="table-row">
+                                    <div class="row-cell type">if-else</div>
+                                    <div class="row-cell code">
+                                        <pre><code>if (condición) {
+                  // código
+                } else {
+                  // código
+                }</code></pre>
+                                    </div>
+                                    <div class="row-cell">
+                                        <ul>
+                                            <li>Decisiones simples</li>
+                                            <li>Bloques grandes de código</li>
+                                        </ul>
+                                    </div>
+                                    <div class="row-cell">
+                                        <ul>
+                                            <li>Usar siempre { } aunque sea una línea</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-row">
+                                    <div class="row-cell type">else-if</div>
+                                    <div class="row-cell code">
+                                        <pre><code>if (cond1) {
+                  // código
+                } else if (cond2) {
+                  // código
+                } else {
+                  // código
+                }</code></pre>
+                                    </div>
+                                    <div class="row-cell">
+                                        <ul>
+                                            <li>Múltiples condiciones secuenciales</li>
+                                            <li>Rangos de valores</li>
+                                        </ul>
+                                    </div>
+                                    <div class="row-cell">
+                                        <ul>
+                                            <li>Se evalúan en orden</li>
+                                            <li>Solo se ejecuta el primer bloque que cumpla</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-row">
+                                    <div class="row-cell type">Ternario</div>
+                                    <div class="row-cell code">
+                                        <pre><code>cond ? valorTrue : valorFalse</code></pre>
+                                    </div>
+                                    <div class="row-cell">
+                                        <ul>
+                                            <li>Asignaciones condicionales</li>
+                                            <li>Condicionales de una línea</li>
+                                        </ul>
+                                    </div>
+                                    <div class="row-cell">
+                                        <ul>
+                                            <li>Usar solo para casos simples</li>
+                                            <li>Evitar anidar ternarios</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-row">
+                                    <div class="row-cell type">switch</div>
+                                    <div class="row-cell code">
+                                        <pre><code>switch (valor) {
+                  case x:
+                    // código
+                    break;
+                  default:
+                    // código
+                }</code></pre>
+                                    </div>
+                                    <div class="row-cell">
+                                        <ul>
+                                            <li>Muchos casos específicos</li>
+                                            <li>Valores discretos</li>
+                                        </ul>
+                                    </div>
+                                    <div class="row-cell">
+                                        <ul>
+                                            <li>No olvidar break en cada caso</li>
+                                            <li>Usa default para casos no especificados</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                  <div class="section-header">
+                      <i class="fas fa-exclamation-triangle"></i>
+                      <span>Errores Comunes y Buenas Prácticas</span>
+                  </div>
+                  <div class="section-content">
+                      <div class="errors-practices">
+                          <div class="errors-column">
+                              <h3 class="column-title">Errores Comunes</h3>
+                              
+                              <div class="error-card">
+                                  <div class="error-icon">
+                                      <i class="fas fa-times-circle"></i>
+                                  </div>
+                                  <div class="error-content">
+                                      <h4>Confundir = con == o ===</h4>
+                                      <div class="code-container mini">
+                                          <pre class="code error">
+              <span class="comment">// ❌ ERROR: Asignación en vez de comparación</span>
+              <span class="keyword">if</span> (variable <span class="operator">=</span> <span class="boolean">true</span>) {
+                <span class="comment">// Este código SIEMPRE se ejecutará</span>
+                <span class="comment">// porque estás asignando true a variable</span>
+              }</pre>
+                                      </div>
+                                      <div class="code-container mini">
+                                          <pre class="code correct">
+              <span class="comment">// ✅ CORRECTO: Comparación</span>
+              <span class="keyword">if</span> (variable <span class="operator">===</span> <span class="boolean">true</span>) {
+                <span class="comment">// Este código se ejecuta solo si variable es true</span>
+              }</pre>
+                                      </div>
+                                      <p class="error-explanation">El operador <code>=</code> es para asignar valores, mientras que <code>==</code> y <code>===</code> son para comparar.</p>
+                                  </div>
+                              </div>
+                              
+                              <div class="error-card">
+                                  <div class="error-icon">
+                                      <i class="fas fa-times-circle"></i>
+                                  </div>
+                                  <div class="error-content">
+                                      <h4>Olvidar el break en switch</h4>
+                                      <div class="code-container mini">
+                                          <pre class="code error">
+              <span class="comment">// ❌ ERROR: Sin break</span>
+              <span class="keyword">switch</span> (valor) {
+                <span class="keyword">case</span> <span class="number">1</span>:
+                  console.<span class="function">log</span>(<span class="string">"uno"</span>);
+                <span class="keyword">case</span> <span class="number">2</span>:
+                  console.<span class="function">log</span>(<span class="string">"dos"</span>);  <span class="comment">// Se ejecutará para valor=1 también</span>
+              }</pre>
+                                      </div>
+                                      <div class="code-container mini">
+                                          <pre class="code correct">
+              <span class="comment">// ✅ CORRECTO: Con break</span>
+              <span class="keyword">switch</span> (valor) {
+                <span class="keyword">case</span> <span class="number">1</span>:
+                  console.<span class="function">log</span>(<span class="string">"uno"</span>);
+                  <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="number">2</span>:
+                  console.<span class="function">log</span>(<span class="string">"dos"</span>);
+                  <span class="keyword">break</span>;
+              }</pre>
+                                      </div>
+                                      <p class="error-explanation">Sin <code>break</code>, el código continúa ejecutándose en los siguientes casos, causando comportamientos inesperados.</p>
+                                  </div>
+                              </div>
+                              
+                              <div class="error-card">
+                                  <div class="error-icon">
+                                      <i class="fas fa-times-circle"></i>
+                                  </div>
+                                  <div class="error-content">
+                                      <h4>Anidar demasiados condicionales</h4>
+                                      <div class="code-container mini">
+                                          <pre class="code error">
+              <span class="comment">// ❌ ERROR: Demasiados niveles anidados</span>
+              <span class="keyword">if</span> (condicion1) {
+                <span class="keyword">if</span> (condicion2) {
+                  <span class="keyword">if</span> (condicion3) {
+                    <span class="keyword">if</span> (condicion4) {
+                      <span class="comment">// Código difícil de seguir</span>
+                    }
+                  }
+                }
+              }</pre>
+                                      </div>
+                                      <div class="code-container mini">
+                                          <pre class="code correct">
+              <span class="comment">// ✅ CORRECTO: Comprobaciones combinadas</span>
+              <span class="keyword">if</span> (condicion1 && condicion2 && condicion3 && condicion4) {
+                <span class="comment">// Código más limpio y fácil de entender</span>
+              }</pre>
+                                      </div>
+                                      <p class="error-explanation">Demasiados niveles anidados hacen que el código sea difícil de leer y mantener.</p>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="practices-column">
+                              <h3 class="column-title">Buenas Prácticas</h3>
+                              
+                              <div class="practice-card">
+                                  <div class="practice-icon">
+                                      <i class="fas fa-check-circle"></i>
+                                  </div>
+                                  <div class="practice-content">
+                                      <h4>Usar comparación estricta (===)</h4>
+                                      <div class="practice-example">
+                                          <div class="example-code">
+                                              <pre class="code">
+              <span class="comment">// Comparación estricta (===)</span>
+              <span class="keyword">if</span> (edad <span class="operator">===</span> <span class="number">18</span>) {
+                <span class="comment">// Verifica valor Y tipo de dato</span>
+              }</pre>
+                                          </div>
+                                          <p class="practice-explanation">La comparación estricta (<code>===</code>) verifica que tanto el valor como el tipo de dato sean iguales, evitando conversiones automáticas que pueden causar errores.</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="practice-card">
+                                  <div class="practice-icon">
+                                      <i class="fas fa-check-circle"></i>
+                                  </div>
+                                  <div class="practice-content">
+                                      <h4>Mantener las condiciones simples</h4>
+                                      <div class="practice-example">
+                                          <div class="example-code">
+                                              <pre class="code">
+              <span class="comment">// Extraer condiciones complejas en variables</span>
+              <span class="keyword">const</span> esAdulto = edad >= <span class="number">18</span>;
+              <span class="keyword">const</span> tieneLicencia = tipoLicencia !== <span class="string">"ninguna"</span>;
+              
+              <span class="keyword">if</span> (esAdulto && tieneLicencia) {
+                <span class="comment">// Código más legible</span>
+              }</pre>
+                                          </div>
+                                          <p class="practice-explanation">Las condiciones complejas pueden extraerse a variables con nombres descriptivos para mejorar la legibilidad.</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="practice-card">
+                                  <div class="practice-icon">
+                                      <i class="fas fa-check-circle"></i>
+                                  </div>
+                                  <div class="practice-content">
+                                      <h4>Usar llaves incluso para una sola línea</h4>
+                                      <div class="practice-example">
+                                          <div class="example-code">
+                                              <pre class="code">
+              <span class="comment">// Siempre usar llaves { }</span>
+              <span class="keyword">if</span> (condicion) {
+                ejecutarFuncion();
+              }
+              
+              <span class="comment">// En lugar de:</span>
+              <span class="comment">// if (condicion) ejecutarFuncion();</span></pre>
+                                          </div>
+                                          <p class="practice-explanation">Las llaves hacen el código más consistente y previenen errores al añadir más líneas posteriormente.</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="practice-card">
+                                  <div class="practice-icon">
+                                      <i class="fas fa-check-circle"></i>
+                                  </div>
+                                  <div class="practice-content">
+                                      <h4>Elegir la estructura adecuada</h4>
+                                      <div class="practice-example">
+                                          <div class="example-code">
+                                              <pre class="code">
+              <span class="comment">// Para asignaciones simples: ternario</span>
+              <span class="keyword">const</span> mensaje = edad >= <span class="number">18</span> ? <span class="string">"Adulto"</span> : <span class="string">"Menor"</span>;
+              
+              <span class="comment">// Para múltiples valores específicos: switch</span>
+              <span class="keyword">switch</span> (diaSemana) {
+                <span class="keyword">case</span> <span class="number">1</span>: <span class="comment">// código</span>
+              }
+              
+              <span class="comment">// Para rangos o condiciones complejas: if-else</span>
+              <span class="keyword">if</span> (temperatura > <span class="number">30</span>) {
+                <span class="comment">// código</span>
+              }</pre>
+                                          </div>
+                                          <p class="practice-explanation">Cada estructura tiene sus usos ideales. Elige la que mejor se adapte a tu caso específico.</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="section">
+                <div class="section-header">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Mini-Juego: Elige el Condicional Correcto</span>
+                </div>
+                <div class="section-content">
+                    <p class="game-intro">¡Pon a prueba tus conocimientos! Para cada situación, selecciona el tipo de condicional más apropiado.</p>
+                    
+                    <div class="game-container">
+                        <div class="scenario-container">
+                            <div class="scenario" id="scenario1">
+                                <h3 class="scenario-title">Escenario 1:</h3>
+                                <p class="scenario-description">Necesitas verificar si un usuario es mayor de edad (18 años o más) para permitirle acceder a cierto contenido.</p>
+                                <div class="scenario-options">
+                                    <button class="option-btn" data-correct="true" data-type="if-else">if-else</button>
+                                    <button class="option-btn" data-correct="false" data-type="switch">switch</button>
+                                    <button class="option-btn" data-correct="false" data-type="multiple-if">multiple if</button>
+                                </div>
+                                <div class="feedback-container">
+                                    <div class="feedback correct">
+                                        <i class="fas fa-check-circle"></i>
+                                        <p>¡Correcto! Un simple if-else es perfecto para una comparación de valor.</p>
+                                        <pre class="code">
+            <span class="keyword">if</span> (edad >= <span class="number">18</span>) {
+              permitirAcceso();
+            } <span class="keyword">else</span> {
+              denegarAcceso();
+            }</span></pre>
+                                    </div>
+                                    <div class="feedback incorrect">
+                                        <i class="fas fa-times-circle"></i>
+                                        <p>No es la mejor opción. Un simple if-else es más adecuado para esta comparación.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="scenario" id="scenario2" style="display: none;">
+                                <h3 class="scenario-title">Escenario 2:</h3>
+                                <p class="scenario-description">Tienes una variable 'diaSemana' (1-7) y quieres mostrar un mensaje diferente para cada día.</p>
+                                <div class="scenario-options">
+                                    <button class="option-btn" data-correct="false" data-type="ternario">Operador Ternario</button>
+                                    <button class="option-btn" data-correct="true" data-type="switch">switch</button>
+                                    <button class="option-btn" data-correct="false" data-type="if-else">if-else</button>
+                                </div>
+                                <div class="feedback-container">
+                                    <div class="feedback correct">
+                                        <i class="fas fa-check-circle"></i>
+                                        <p>¡Correcto! Switch es ideal para manejar múltiples valores específicos de una variable.</p>
+                                        <pre class="code">
+            <span class="keyword">switch</span> (diaSemana) {
+              <span class="keyword">case</span> <span class="number">1</span>:
+                console.<span class="function">log</span>(<span class="string">"Lunes"</span>);
+                <span class="keyword">break</span>;
+              <span class="keyword">case</span> <span class="number">2</span>:
+                console.<span class="function">log</span>(<span class="string">"Martes"</span>);
+                <span class="keyword">break</span>;
+              <span class="comment">// etc...</span>
+            }</span></pre>
+                                    </div>
+                                    <div class="feedback incorrect">
+                                        <i class="fas fa-times-circle"></i>
+                                        <p>No es la mejor opción. Switch es ideal para evaluar una variable contra múltiples valores específicos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="scenario" id="scenario3" style="display: none;">
+                                <h3 class="scenario-title">Escenario 3:</h3>
+                                <p class="scenario-description">Necesitas asignar una de dos cadenas a una variable, según una condición simple.</p>
+                                <div class="scenario-options">
+                                    <button class="option-btn" data-correct="true" data-type="ternario">Operador Ternario</button>
+                                    <button class="option-btn" data-correct="false" data-type="if-else">if-else</button>
+                                    <button class="option-btn" data-correct="false" data-type="switch">switch</button>
+                                </div>
+                                <div class="feedback-container">
+                                    <div class="feedback correct">
+                                        <i class="fas fa-check-circle"></i>
+                                        <p>¡Correcto! El operador ternario es ideal para asignaciones condicionales simples.</p>
+                                        <pre class="code">
+            <span class="keyword">const</span> mensaje = edad >= <span class="number">18</span> 
+              ? <span class="string">"Mayor de edad"</span> 
+              : <span class="string">"Menor de edad"</span>;</span></pre>
+                                    </div>
+                                    <div class="feedback incorrect">
+                                        <i class="fas fa-times-circle"></i>
+                                        <p>El operador ternario sería más conciso para una simple asignación condicional.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="game-controls">
+                            <button id="prev-scenario" class="btn game-btn" disabled>Anterior</button>
+                            <span id="scenario-counter">Escenario 1 de 3</span>
+                            <button id="next-scenario" class="btn game-btn">Siguiente</button>
+                        </div>
+                        
+                        <div class="game-progress">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 33%"></div>
+                            </div>
+                            <div class="score-container">
+                                <span class="score-label">Puntuación:</span>
+                                <span id="score">0/0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+              <div class="footer-content">
+                  <h3>Condicionales en JavaScript</h3>
+                  <p>Material didáctico interactivo para la enseñanza de condicionales</p>
+                  <div class="footer-links">
+                      <a href="#" class="footer-link">
+                          <i class="fas fa-code"></i>
+                          <span>Guía Completa</span>
+                      </a>
+                      <a href="#" class="footer-link">
+                          <i class="fas fa-book"></i>
+                          <span>Más Ejercicios</span>
+                      </a>
+                      <a href="#" class="footer-link">
+                          <i class="fas fa-graduation-cap"></i>
+                          <span>Cursos JavaScript</span>
+                      </a>
+                  </div>
+              </div>
+          </footer>
+          
+          <script>
+             // Todo el código JavaScript juntos
+document.addEventListener('DOMContentLoaded', function() {
+    // SECCIÓN 1: TOGGLE PARA LA ANIMACIÓN DE CONDICIÓN
+    const toggleButton = document.getElementById('toggle-condition');
+    if (toggleButton) {
+        toggleButton.addEventListener('click', function() {
+            const conditionBox = document.querySelector('.condition-box');
+            const isTrue = conditionBox.classList.contains('true');
+            
+            // Toggle clase para la caja de condición
+            conditionBox.classList.toggle('true');
+            conditionBox.classList.toggle('false');
+            
+            // Actualizar texto
+            conditionBox.querySelector('.condition-text').textContent = isTrue ? 'Condición: false' : 'Condición: true';
+            
+            // Toggle clases activas para los caminos de código
+            const codePaths = document.querySelectorAll('.code-path');
+            codePaths.forEach(path => {
+                path.classList.toggle('active');
+                path.classList.toggle('inactive');
+            });
+        });
+    }
+    
+    // SECCIÓN 2: FUNCIONAMIENTO DE LAS PESTAÑAS
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remover la clase active de todos los botones
+            tabBtns.forEach(b => b.classList.remove('active'));
+            
+            // Añadir la clase active al botón clickeado
+            this.classList.add('active');
+            
+            // Ocultar todos los paneles
+            const panes = document.querySelectorAll('.tab-pane');
+            panes.forEach(pane => pane.classList.remove('active'));
+            
+            // Mostrar el panel correspondiente
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(`${tabId}-pane`).classList.add('active');
+        });
+    });
+    
+    // SECCIÓN 3: SLIDERS PARA LOS EJEMPLOS INTERACTIVOS
+    // if-else slider
+    const ifElseSlider = document.getElementById('if-else-value');
+    if (ifElseSlider) {
+        const ifElseDisplay = document.getElementById('if-else-value-display');
+        
+        ifElseSlider.addEventListener('input', function() {
+            ifElseDisplay.textContent = this.value;
+        });
+    }
+    
+    // else-if slider
+    const elseIfSlider = document.getElementById('else-if-value');
+    if (elseIfSlider) {
+        const elseIfDisplay = document.getElementById('else-if-value-display');
+        
+        elseIfSlider.addEventListener('input', function() {
+            elseIfDisplay.textContent = this.value;
+        });
+    }
+    
+    // ternario slider
+    const ternarioSlider = document.getElementById('ternario-value');
+    if (ternarioSlider) {
+        const ternarioDisplay = document.getElementById('ternario-value-display');
+        
+        ternarioSlider.addEventListener('input', function() {
+            ternarioDisplay.textContent = this.value;
+        });
+    }
+    
+    // switch slider
+    const switchSlider = document.getElementById('switch-value');
+    if (switchSlider) {
+        const switchDisplay = document.getElementById('switch-value-display');
+        
+        switchSlider.addEventListener('input', function() {
+            let dayName = '';
+            const day = parseInt(this.value);
+            
+            switch(day) {
+                case 1: dayName = 'Lunes'; break;
+                case 2: dayName = 'Martes'; break;
+                case 3: dayName = 'Miércoles'; break;
+                case 4: dayName = 'Jueves'; break;
+                case 5: dayName = 'Viernes'; break;
+                case 6: dayName = 'Sábado'; break;
+                case 7: dayName = 'Domingo'; break;
+                default: dayName = 'Inválido';
+            }
+            
+            switchDisplay.textContent = `${day} (${dayName})`;
+        });
+    }
+    
+    // SECCIÓN 4: EJECUTAR CÓDIGO EN LOS EJEMPLOS
+    const runButtons = document.querySelectorAll('.run-btn');
+    runButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const codeType = this.getAttribute('data-code');
+            const resultContainer = document.getElementById(`${codeType}-result`);
+            if (!resultContainer) return;
+            
+            const resultElement = resultContainer.querySelector('.result');
+            if (!resultElement) return;
+            
+            let output = '';
+            
+            if (codeType === 'if-else') {
+                const edadElement = document.getElementById('if-else-value');
+                if (edadElement) {
+                    const edad = parseInt(edadElement.value);
+                    
+                    if (edad >= 18) {
+                        output = "Eres mayor de edad. Puedes conducir.";
+                    } else {
+                        output = "Eres menor de edad. No puedes conducir.";
+                    }
+                }
+            } else if (codeType === 'else-if') {
+                const notaElement = document.getElementById('else-if-value');
+                if (notaElement) {
+                    const nota = parseInt(notaElement.value);
+                    
+                    if (nota >= 90) {
+                        output = "Sobresaliente";
+                    } else if (nota >= 80) {
+                        output = "Notable";
+                    } else if (nota >= 70) {
+                        output = "Bien";
+                    } else if (nota >= 60) {
+                        output = "Suficiente";
+                    } else {
+                        output = "Necesita mejorar";
+                    }
+                }
+            } else if (codeType === 'ternario') {
+                const edadElement = document.getElementById('ternario-value');
+                if (edadElement) {
+                    const edad = parseInt(edadElement.value);
+                    const mensaje = edad >= 18 ? "Eres mayor de edad" : "Eres menor de edad";
+                    output = mensaje;
+                }
+            } else if (codeType === 'switch') {
+                const diaSemanaElement = document.getElementById('switch-value');
+                if (diaSemanaElement) {
+                    const diaSemana = parseInt(diaSemanaElement.value);
+                    
+                    switch (diaSemana) {
+                        case 1:
+                            output = "Hoy es Lunes";
+                            break;
+                        case 2:
+                            output = "Hoy es Martes";
+                            break;
+                        case 3:
+                            output = "Hoy es Miércoles";
+                            break;
+                        case 4:
+                            output = "Hoy es Jueves";
+                            break;
+                        case 5:
+                            output = "Hoy es Viernes";
+                            break;
+                        case 6:
+                        case 7:
+                            output = "¡Es fin de semana!";
+                            break;
+                        default:
+                            output = "Día no válido";
+                    }
+                }
+            }
+            
+            resultElement.textContent = output;
+        });
+    });
+    
+    // VISUALIZADOR DE FLUJO
+const flowSlider = document.getElementById('flow-slider');
+if (flowSlider) {
+    const updateFlowDiagram = function() {
+        const age = parseInt(flowSlider.value);
+        
+        // Actualizar displays de edad
+        const flowValue = document.getElementById('flow-value');
+        const flowAgeDisplay = document.getElementById('flow-age-display');
+        if (flowValue) flowValue.textContent = age;
+        if (flowAgeDisplay) flowAgeDisplay.textContent = age;
+        
+        // Actualizar bloques de código
+        const blockTrue = document.getElementById('block-true');
+        const blockFalse = document.getElementById('block-false');
+        
+        // Actualizar bloques de diagrama
+        const trueBlock = document.getElementById('true-block');
+        const falseBlock = document.getElementById('false-block');
+        
+        // Actualizar caminos
+        const truePath = document.getElementById('true-path');
+        const falsePath = document.getElementById('false-path');
+        
+        if (age >= 18) {
+            // Camino verdadero
+            if (blockTrue) blockTrue.classList.add('active');
+            if (blockFalse) blockFalse.classList.remove('active');
+            if (trueBlock) trueBlock.classList.add('active');
+            if (falseBlock) falseBlock.classList.remove('active');
+            if (truePath) truePath.classList.add('active');
+            if (falsePath) falsePath.classList.remove('active');
+        } else {
+            // Camino falso
+            if (blockTrue) blockTrue.classList.remove('active');
+            if (blockFalse) blockFalse.classList.add('active');
+            if (trueBlock) trueBlock.classList.remove('active');
+            if (falseBlock) falseBlock.classList.add('active');
+            if (truePath) truePath.classList.remove('active');
+            if (falsePath) falsePath.classList.add('active');
+        }
+    };
+    
+    // Escuchar eventos del slider
+    flowSlider.addEventListener('input', updateFlowDiagram);
+    flowSlider.addEventListener('change', updateFlowDiagram);
+    
+    // Inicializar el diagrama
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(updateFlowDiagram, 100);
+    });
+    
+    // Llamar inmediatamente también
+    updateFlowDiagram();
+}
+    
+    // SECCIÓN 6: MINI-JUEGO
+    const scenarios = document.querySelectorAll('.scenario');
+    const prevBtn = document.getElementById('prev-scenario');
+    const nextBtn = document.getElementById('next-scenario');
+    
+    if (scenarios.length > 0 && prevBtn && nextBtn) {
+        const scenarioCounter = document.getElementById('scenario-counter');
+        const progress = document.querySelector('.progress');
+        const scoreElement = document.getElementById('score');
+        
+        let currentScenario = 0;
+        let score = 0;
+        let answered = 0;
+        
+        // Configuración inicial
+        updateScenarioNavigation();
+        
+        // Función para actualizar los botones de navegación
+        function updateScenarioNavigation() {
+            prevBtn.disabled = currentScenario === 0;
+            nextBtn.disabled = currentScenario === scenarios.length - 1;
+            
+            if (scenarioCounter) {
+                scenarioCounter.textContent = `Escenario ${currentScenario + 1} de ${scenarios.length}`;
+            }
+            
+            // Actualizar la barra de progreso
+            if (progress) {
+                const progressPercent = ((currentScenario + 1) / scenarios.length) * 100;
+                progress.style.width = `${progressPercent}%`;
+            }
+        }
+        
+        // Evento para los botones de opción
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('option-btn')) {
+                const optionBtn = e.target;
+                
+                // Obtener el contenedor de escenario
+                const scenario = optionBtn.closest('.scenario');
+                
+                // Si ya se respondió este escenario, salir
+                if (scenario.dataset.answered === 'true') return;
+                
+                // Marcar como respondido
+                scenario.dataset.answered = 'true';
+                answered++;
+                
+                // Obtener los botones de opción de este escenario
+                const options = scenario.querySelectorAll('.option-btn');
+                
+                // Verificar si la respuesta es correcta
+                const isCorrect = optionBtn.dataset.correct === 'true';
+                if (isCorrect) {
+                    score++;
+                }
+                
+                // Actualizar la puntuación
+                if (scoreElement) {
+                    scoreElement.textContent = `${score}/${answered}`;
+                }
+                
+                // Mostrar feedback
+                const feedbacks = scenario.querySelectorAll('.feedback');
+                if (isCorrect && feedbacks.length > 0) {
+                    optionBtn.classList.add('correct');
+                    feedbacks[0].style.display = 'block';
+                } else if (feedbacks.length > 1) {
+                    optionBtn.classList.add('incorrect');
+                    feedbacks[1].style.display = 'block';
+                    
+                    // Marcar la respuesta correcta
+                    options.forEach(opt => {
+                        if (opt.dataset.correct === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                }
+            }
+        });
+        
+        // Navegación entre escenarios
+        prevBtn.addEventListener('click', function() {
+            if (currentScenario > 0) {
+                scenarios[currentScenario].style.display = 'none';
+                currentScenario--;
+                scenarios[currentScenario].style.display = 'block';
+                updateScenarioNavigation();
+            }
+        });
+        
+        nextBtn.addEventListener('click', function() {
+            if (currentScenario < scenarios.length - 1) {
+                scenarios[currentScenario].style.display = 'none';
+                currentScenario++;
+                scenarios[currentScenario].style.display = 'block';
+                updateScenarioNavigation();
+            }
+        });
+    }
+    
+    // SECCIÓN 7: ANIMACIÓN DE PASOS
+    const animateBtn = document.getElementById('animate-btn');
+    if (animateBtn) {
+        animateBtn.addEventListener('click', function() {
+            const steps = document.querySelectorAll('.execution-step');
+            if (steps.length === 0) return;
+            
+            let currentStep = 0;
+            
+            // Primero, quita todas las clases active
+            steps.forEach(step => step.classList.remove('active'));
+            
+            // Función para animar los pasos uno a uno
+            function animateNextStep() {
+                if (currentStep < steps.length) {
+                    if (currentStep > 0) {
+                        steps[currentStep - 1].classList.remove('active');
+                    }
+                    steps[currentStep].classList.add('active');
+                    currentStep++;
+                    setTimeout(animateNextStep, 1000);
+                }
+            }
+            
+            // Inicia la animación
+            animateNextStep();
+        });
+    }
+});
+          </script>
+                    <!--
+               Agregar más contenido para las otras pestañas en las siguientes partes -->
+                </div>
+            </div>
+        </div>
     </div>
-
-    <!-- Do not delete this script tag, this is what connects your HTML with the Javascript code -->
-    <script type="module" src="/app.js"></script>
-  </body>
+        <!-- El resto del contenido irá en las siguientes partes -->
+    </div>
+    
+</body>
 </html>
